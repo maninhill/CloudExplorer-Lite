@@ -32,14 +32,25 @@ public class ProviderTest {
     private IBaseCloudAccountService cloudAccountService;
 
     @Test
-    public void test() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public void test() {
         CloudAccount account = cloudAccountService.getById("9473809a9cbf7b1074b5472ac039f96c");
         Class<? extends ICloudProvider> cloudProvider = ProviderConstants.valueOf(account.getPlatform()).getCloudProvider();
         HashMap<String, Object> stringObjectHashMap = new HashMap<>();
         stringObjectHashMap.put("credential", account.getCredential());
-        stringObjectHashMap.put("regionId", "cn-beijing");
+        stringObjectHashMap.put("region", "cn-beijing");
         String jsonString = JsonUtil.toJSONString(stringObjectHashMap);
-        List<F2CVirtualMachine> f2CVirtualMachines = cloudProvider.getConstructor().newInstance().listVirtualMachine(jsonString);
+        List<F2CVirtualMachine> f2CVirtualMachines = null;
+        try {
+            f2CVirtualMachines = cloudProvider.getConstructor().newInstance().listVirtualMachine(jsonString);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(f2CVirtualMachines);
     }
 
