@@ -2,12 +2,16 @@ package com.fit2cloud;
 
 import com.fit2cloud.base.entity.CloudAccount;
 import com.fit2cloud.base.service.IBaseCloudAccountService;
+import com.fit2cloud.common.platform.credential.Credential;
+import com.fit2cloud.common.scheduler.SchedulerService;
+import com.fit2cloud.common.scheduler.impl.entity.QuzrtzJobDetail;
 import com.fit2cloud.common.utils.JsonUtil;
 import com.fit2cloud.dao.entity.VmCloudImage;
 import com.fit2cloud.provider.ICloudProvider;
 import com.fit2cloud.provider.constants.ProviderConstants;
 import com.fit2cloud.provider.entity.F2CVirtualMachine;
 import com.fit2cloud.provider.impl.aliyun.AliyunCloudProvider;
+import com.fit2cloud.service.ISyncProviderService;
 import com.fit2cloud.service.IVmCloudImageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,8 +19,10 @@ import org.springframework.test.context.TestPropertySource;
 
 import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author:张少虎
@@ -31,28 +37,31 @@ import java.util.List;
 })
 public class ProviderTest {
     @Resource
-    private IBaseCloudAccountService cloudAccountService;
+    private ISyncProviderService syncProviderService;
+    @Resource
+    private SchedulerService schedulerService;
 
     @Test
-    public void test() {
-        CloudAccount account = cloudAccountService.getById("9473809a9cbf7b1074b5472ac039f96c");
-        Class<? extends ICloudProvider> cloudProvider = ProviderConstants.valueOf(account.getPlatform()).getCloudProvider();
-        HashMap<String, Object> stringObjectHashMap = new HashMap<>();
-        stringObjectHashMap.put("credential", account.getCredential());
-        stringObjectHashMap.put("region", "cn-beijing");
-        String jsonString = JsonUtil.toJSONString(stringObjectHashMap);
-        List<F2CVirtualMachine> f2CVirtualMachines = null;
-        try {
-            f2CVirtualMachines = cloudProvider.getConstructor().newInstance().listVirtualMachine(jsonString);
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(f2CVirtualMachines);
+    public void syncServer() {
+        syncProviderService.syncCloudServer(schedulerService.getJobDetails("SYNC_VIRTUAL_MACHINE_9473809a9cbf7b1074b5472ac039f96c", "CLOUD_ACCOUNT_RESOURCE_SYNC_GROUP").getParams());
+    }
+
+    @Test
+    public void syncImag() {
+        syncProviderService.syncCloudImage(schedulerService.getJobDetails("SYNC_VIRTUAL_MACHINE_9473809a9cbf7b1074b5472ac039f96c", "CLOUD_ACCOUNT_RESOURCE_SYNC_GROUP").getParams());
+    }
+
+    @Test
+    public void syncDisk() {
+        syncProviderService.syncCloudDisk(schedulerService.getJobDetails("SYNC_VIRTUAL_MACHINE_9473809a9cbf7b1074b5472ac039f96c", "CLOUD_ACCOUNT_RESOURCE_SYNC_GROUP").getParams());
+    }
+
+    @Test
+    public void syncServerImageDisk() {
+        Map<String, Object> params = schedulerService.getJobDetails("SYNC_VIRTUAL_MACHINE_9473809a9cbf7b1074b5472ac039f96c", "CLOUD_ACCOUNT_RESOURCE_SYNC_GROUP").getParams();
+        syncProviderService.syncCloudServer(params);
+        syncProviderService.syncCloudImage(params);
+        syncProviderService.syncCloudDisk(params);
+
     }
 }
