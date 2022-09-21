@@ -3,10 +3,12 @@ package com.fit2cloud;
 import com.fit2cloud.base.entity.CloudAccount;
 import com.fit2cloud.base.service.IBaseCloudAccountService;
 import com.fit2cloud.common.utils.JsonUtil;
+import com.fit2cloud.dao.entity.VmCloudImage;
 import com.fit2cloud.provider.ICloudProvider;
 import com.fit2cloud.provider.constants.ProviderConstants;
 import com.fit2cloud.provider.entity.F2CVirtualMachine;
 import com.fit2cloud.provider.impl.aliyun.AliyunCloudProvider;
+import com.fit2cloud.service.IVmCloudImageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -53,5 +55,4 @@ public class ProviderTest {
         }
         System.out.println(f2CVirtualMachines);
     }
-
 }
