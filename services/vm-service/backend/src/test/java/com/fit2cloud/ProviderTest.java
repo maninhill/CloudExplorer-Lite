@@ -69,4 +69,10 @@ public class ProviderTest {
 //        syncProviderService.syncCloudImage(params);
         syncProviderService.syncCloudDisk(params);
     }
+    @Test
+    public void syncTencent(){
+        syncProviderService.syncCloudServer("e6867e8dfb2b19747117cdc698f58cbc");
+//        syncProviderService.syncCloudImage("e6867e8dfb2b19747117cdc698f58cbc");
+//        syncProviderService.syncCloudDisk("e6867e8dfb2b19747117cdc698f58cbc");
+    }
 }
