@@ -1,27 +1,13 @@
 package com.fit2cloud;
 
-import com.fit2cloud.base.entity.CloudAccount;
 import com.fit2cloud.base.service.IBaseCloudAccountService;
-import com.fit2cloud.common.platform.credential.Credential;
 import com.fit2cloud.common.scheduler.SchedulerService;
-import com.fit2cloud.common.scheduler.impl.entity.QuzrtzJobDetail;
-import com.fit2cloud.common.utils.JsonUtil;
-import com.fit2cloud.dao.entity.VmCloudImage;
-import com.fit2cloud.provider.ICloudProvider;
-import com.fit2cloud.provider.constants.ProviderConstants;
-import com.fit2cloud.provider.entity.F2CVirtualMachine;
-import com.fit2cloud.provider.impl.aliyun.AliyunCloudProvider;
 import com.fit2cloud.service.ISyncProviderService;
-import com.fit2cloud.service.IVmCloudImageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 import javax.annotation.Resource;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
