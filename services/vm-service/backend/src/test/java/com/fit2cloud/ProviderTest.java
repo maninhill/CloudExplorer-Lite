@@ -35,22 +35,22 @@ public class ProviderTest {
 
     @Test
     public void syncServer() {
-        syncProviderService.syncCloudServer(schedulerService.getJobDetails("SYNC_VIRTUAL_MACHINE_9473809a9cbf7b1074b5472ac039f96c", "CLOUD_ACCOUNT_RESOURCE_SYNC_GROUP").getParams());
+        syncProviderService.syncCloudServer(schedulerService.getJobDetails("SYNC_VIRTUAL_MACHINE_9473809a9cbf7b1074b5472ac039f96c", "CLOUD_ACCOUNT_RESOURCE_SYNC_GROUP").getJobDetailsJobData());
     }
 
     @Test
     public void syncImag() {
-        syncProviderService.syncCloudImage(schedulerService.getJobDetails("SYNC_VIRTUAL_MACHINE_9473809a9cbf7b1074b5472ac039f96c", "CLOUD_ACCOUNT_RESOURCE_SYNC_GROUP").getParams());
+        syncProviderService.syncCloudImage(schedulerService.getJobDetails("SYNC_VIRTUAL_MACHINE_9473809a9cbf7b1074b5472ac039f96c", "CLOUD_ACCOUNT_RESOURCE_SYNC_GROUP").getJobDetailsJobData());
     }
 
     @Test
     public void syncDisk() {
-        syncProviderService.syncCloudDisk(schedulerService.getJobDetails("SYNC_VIRTUAL_MACHINE_9473809a9cbf7b1074b5472ac039f96c", "CLOUD_ACCOUNT_RESOURCE_SYNC_GROUP").getParams());
+        syncProviderService.syncCloudDisk(schedulerService.getJobDetails("SYNC_VIRTUAL_MACHINE_9473809a9cbf7b1074b5472ac039f96c", "CLOUD_ACCOUNT_RESOURCE_SYNC_GROUP").getJobDetailsJobData());
     }
 
     @Test
     public void syncServerImageDisk() {
-        Map<String, Object> params = schedulerService.getJobDetails("SYNC_NETWORK_18a851d307016c9cc7fefd7c45f3b6d6", "CLOUD_ACCOUNT_RESOURCE_SYNC_GROUP").getParams();
+        Map<String, Object> params = schedulerService.getJobDetails("SYNC_NETWORK_18a851d307016c9cc7fefd7c45f3b6d6", "CLOUD_ACCOUNT_RESOURCE_SYNC_GROUP").getTriggerJobData();
         syncProviderService.syncCloudServer(params);
 //        syncProviderService.syncCloudImage(params);
         syncProviderService.syncCloudDisk(params);
